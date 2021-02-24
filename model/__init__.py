@@ -1,0 +1,69 @@
+import torch
+from torch import nn
+from .blocks import ConvTanh, ConvLReLU, ConvBnLReLU, UpConvBnReLU
+
+class Generator(nn.Module):
+    def __init__(self, in_channels=3, hid_channels=32, out_channels=3):
+        super().__init__()
+        self.Input=nn.Identity()
+        
+        self.DownBlock1=ConvLReLU(in_channels, hid_channels, kernel_size=3, stride=1)
+        self.DownBlock2=ConvBnLReLU(hid_channels, 2*hid_channels, kernel_size=3, stride=1)
+        self.DownBlock3=ConvBnLReLU(2*hid_channels, 4*hid_channels, kernel_size=3, stride=1)
+        self.DownBlock4=ConvBnLReLU(4*hid_channels, 8*hid_channels, kernel_size=3, stride=1)
+        self.DownBlock5=ConvBnLReLU(8*hid_channels, 8*hid_channels, kernel_size=3, stride=1)
+        
+        self.UpBlock5=nn.Sequential(
+                UpConvBnReLU(8*hid_channels, 8*hid_channels, kernel_size=3, stride=1),
+                nn.Dropout2d(0.5))
+        self.UpBlock4=nn.Sequential(
+                UpConvBnReLU(16*hid_channels, 4*hid_channels, kernel_size=3, stride=1),
+                nn.Dropout2d(0.5))
+        self.UpBlock3=UpConvBnReLU(8*hid_channels, 2*hid_channels, kernel_size=3, stride=1)
+        self.UpBlock2=UpConvBnReLU(4*hid_channels, hid_channels, kernel_size=3, stride=1)
+        self.UpBlock1=UpConvBnReLU(2*hid_channels, out_channels, kernel_size=3, stride=1)
+        
+        self.Output=ConvTanh(2*out_channels, out_channels, kernel_size=1, stride=1)
+        
+    def forward(self, x):
+        x0 = self.Input(x)
+        
+        x1 = self.DownBlock1(x0)
+        x2 = self.DownBlock2(x1)
+        x3 = self.DownBlock3(x2)
+        x4 = self.DownBlock4(x3)
+        x5 = self.DownBlock5(x4)
+        
+        y5 = self.UpBlock5(x5)
+        y4 = self.UpBlock4(torch.cat([y5, x4], 1))
+        y3 = self.UpBlock3(torch.cat([y4, x3], 1))
+        y2 = self.UpBlock2(torch.cat([y3, x2], 1))
+        y1 = self.UpBlock1(torch.cat([y2, x1], 1))
+        
+        y0 = self.Output(torch.cat([y1, x0], 1))
+        return y0
+
+
+
+class Discriminator(nn.Module):
+    def __init__(self, in_channels=6, hid_channels=32, out_channels=1):
+        super().__init__()
+        self.Input=nn.Identity()
+        
+        self.DownBlock1=ConvLReLU(in_channels, hid_channels, kernel_size=3, stride=1)
+        self.DownBlock2=ConvBnLReLU(hid_channels, 2*hid_channels, kernel_size=3, stride=2)
+        self.DownBlock3=ConvBnLReLU(2*hid_channels, 4*hid_channels, kernel_size=3, stride=2)
+        self.DownBlock4=ConvBnLReLU(4*hid_channels, 8*hid_channels, kernel_size=3, stride=2)
+        
+        self.Output=nn.Conv2d(8*hid_channels, out_channels, kernel_size=3, stride=1)
+        
+    def forward(self, x):
+        y0 = self.Input(x)
+        
+        y1 = self.DownBlock1(y0)
+        y2 = self.DownBlock2(y1) 
+        y3 = self.DownBlock3(y2) 
+        y4 = self.DownBlock4(y3) 
+        
+        y5 = self.Output(y4)
+        return y5
