@@ -14,7 +14,7 @@ def showImage(img_data, title):
     Function for visualizing images: Given a tensor of images, number of images, and
     size per image, plots and prints the images in an uniform grid.
     '''
-    img_data = ((img_data + 1.)/2).detach().cpu()
+    img_data = img_data.detach().cpu()
     img_grid = make_grid(img_data[:4], nrow=4)
     plt.axis('off')
     plt.title(title)
