@@ -32,9 +32,13 @@ The **Generator's loss** consists of **Adverserial loss**(BCE loss between *fake
 and **Pixel-wise loss**(L1 loss between *fake and real images*). For **Discriminator** the loss function is a sum of
 **Adverserial losses**: BCE loss between *fake's prediction and fake's target*, BCE loss between *real's prediction and real's target*.
 
-![Generator loss](images/g_loss.png)
+<a>
+    <img src="images/g_loss.png" align="center" height="300px" width="300px"/>
+</a>
 
-![Discriminator loss](images/d_loss.png)
+<a>
+    <img src="images/d_loss.png" align="center" height="300px" width="300px"/>
+</a>
 
 **After 100 epochs of training:**
 
