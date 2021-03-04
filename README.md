@@ -39,7 +39,7 @@ and **Pixel-wise loss**(L1 loss between *fake and real images*). For **Discrimin
 **After 100 epochs of training:**
 
 <a>
-    <img src="images/train.png" align="center" height="400px" width="400px"/>
+    <img src="images/train.png" align="center" height="500px" width="400px"/>
 </a>
 
 
