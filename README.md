@@ -33,11 +33,11 @@ and **Pixel-wise loss**(L1 loss between *fake and real images*). For **Discrimin
 **Adverserial losses**: BCE loss between *fake's prediction and fake's target*, BCE loss between *real's prediction and real's target*.
 
 <a>
-    <img src="images/g_loss.png" align="center" height="300px" width="300px"/>
+    <img src="images/g_loss.png" align="center" height="300px" width="400px"/>
 </a>
 
 <a>
-    <img src="images/d_loss.png" align="center" height="300px" width="300px"/>
+    <img src="images/d_loss.png" align="center" height="300px" width="400px"/>
 </a>
 
 **After 100 epochs of training:**
