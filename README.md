@@ -72,6 +72,7 @@ optional arguments:
 ```
 
 #### Results
+
 **Facades:**
 <a>
     <img src="assets/facades.jpg" align="center" height="600px" width="500px"/>
