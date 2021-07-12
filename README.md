@@ -41,7 +41,7 @@ transforms = T.Compose([T.Resize(size=(..., ...)), # (width, height)
                         T.Normalize(mean=[..., ..., ...],
                                      std=[..., ..., ...])])
 ```
-As input `trasnforms` take one/or two arguments (`imageA`/or `imageA` and `imageB`):
+As input, `transforms` take one/or two arguments (`imageA`/or `imageA` and `imageB`):
 ```python
 imgA_transformed = transforms(imgA)
 # or
@@ -72,16 +72,13 @@ optional arguments:
 ```
 
 #### Results
-
 **Facades:**
-<a>
-    <img src="assets/facades.jpg" align="center" height="600px" width="500px"/>
-</a>
+
+<a><img src="assets/facades.jpg" align="center" height="600px" width="500px"/></a>
 
 **Maps**
-<a>
-    <img src="assets/maps.jpg" align="center" height="600px" width="500px"/>
-</a>
+
+<a><img src="assets/maps.jpg" align="center" height="600px" width="500px"/></a>
 
 ## License
 
